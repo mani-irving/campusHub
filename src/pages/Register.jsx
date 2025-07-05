@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { useUserContext } from "../context/UserContext";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
+import { EyeOff, Eye, EyeIcon } from "lucide-react";
 
 export default function Register() {
   const { addUser } = useUserContext();
   const [registrationSuccesful, setRegistrationSuccessful] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const defaultFormData = {
     firstName: "",
     lastName: "",
@@ -15,6 +18,7 @@ export default function Register() {
     dob: "",
     department: "",
     academicYear: "",
+    password: "",
     isActive: false,
   };
 
@@ -28,6 +32,7 @@ export default function Register() {
     dob: "",
     department: "",
     academicYear: "",
+    password: "",
     isActive: false,
   });
 
@@ -196,6 +201,33 @@ export default function Register() {
               <option value="4th Year">4th Year</option>
             </select>
           </div>
+
+          <div>
+            <label className="block text-sm text-gray-700 dark:text-gray-300 mb-1">
+              Password
+            </label>
+
+            <div className="relative flex items-center">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                required
+                onChange={handleChange}
+                value={formData.password}
+                placeholder="Enter your password"
+                className="w-full pr-10 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200"
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-2 text-gray-500 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                aria-label="Toggle password visibility"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
+          </div>
         </form>
 
         <button
@@ -208,9 +240,9 @@ export default function Register() {
 
         <p className="text-sm mt-6 text-gray-600 dark:text-gray-400">
           Already have an account?{" "}
-          <a href="/login" className="text-blue-500 hover:underline">
+          <Link to="/login" className="text-blue-500 hover:underline">
             Login here
-          </a>
+          </Link>
         </p>
       </div>
     </section>

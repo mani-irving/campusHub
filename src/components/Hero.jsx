@@ -1,8 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useUserContext } from "../context/UserContext";
 
 export default function HeroSection() {
   const navigate = useNavigate();
+  const { currentUser } = useUserContext();
 
   return (
     <section className="w-full min-h-screen flex flex-col items-center justify-center bg-white dark:bg-gray-900 px-4 ">
@@ -17,7 +19,9 @@ export default function HeroSection() {
         </p>
 
         <button
-          onClick={() => navigate("/register")}
+          onClick={() =>
+            currentUser ? navigate("/user/") : navigate("/register")
+          }
           className="px-6 py-3 rounded-md bg-yellow-400 hover:bg-yellow-500 text-black font-semibold transition-all"
         >
           Get Started

@@ -3,10 +3,12 @@ import { useTheme } from "../context/ThemeContext.jsx";
 import { Link } from "react-router-dom";
 import { HomeIcon as Home } from "lucide-react";
 import HamburgerMenu from "./HamburgerMenu.jsx";
+import { useUserContext } from "../context/UserContext.jsx";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const { darkTheme, setDarkTheme } = useTheme();
+  const { currentUser } = useUserContext();
 
   const themeChangeBtn = () => {
     setDarkTheme(!darkTheme);
@@ -50,22 +52,45 @@ export default function Navbar() {
             <Home size={20} />
           </Link>
 
-          <Link
-            to="/register"
-            className="text-sm px-3 py-1 rounded-md 
+          {currentUser ? (
+            <>
+              <Link
+                to="/user/"
+                className="text-sm px-3 py-1 rounded-md 
              bg-[#e7d8c9] hover:bg-[#d6c2b2] text-gray-800 
              dark:bg-[#2e2a27] dark:hover:bg-[#3c3733] dark:text-gray-100 
              transition"
-          >
-            Register
-          </Link>
+              >
+                Dashboard
+              </Link>
 
-          <Link
-            to="/login"
-            className="text-sm px-3 py-1 rounded-md bg-blue-500 hover:bg-blue-600 text-white transition"
-          >
-            Login
-          </Link>
+              <Link
+                to="/user/logout"
+                className="text-sm px-3 py-1 rounded-md bg-red-500 hover:bg-red-400 text-white transition"
+              >
+                Logout
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/register"
+                className="text-sm px-3 py-1 rounded-md 
+             bg-[#e7d8c9] hover:bg-[#d6c2b2] text-gray-800 
+             dark:bg-[#2e2a27] dark:hover:bg-[#3c3733] dark:text-gray-100 
+             transition"
+              >
+                Register
+              </Link>
+
+              <Link
+                to="/login"
+                className="text-sm px-3 py-1 rounded-md bg-blue-500 hover:bg-blue-600 text-white transition"
+              >
+                Login
+              </Link>
+            </>
+          )}
 
           <button onClick={themeChangeBtn}>{darkTheme ? "☀️" : "🌙"}</button>
         </div>
