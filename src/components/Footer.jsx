@@ -5,10 +5,10 @@ import { Instagram, Facebook, Globe, Sun, Moon } from "lucide-react";
 const Footer = () => {
   return (
     <footer
-      className="w-full border-t dark:bg-zinc-900 dark:text-zinc-100 dark:border-zinc-800
-     bg-zinc-100 text-zinc-900 border-zinc-200 transition-colors duration-300"
+      className="w-full  dark:bg-gray-900 dark:text-zinc-100 
+     bg-zinc-100 text-zinc-900 transition-colors duration-300"
     >
-      <div className="max-w-5xl mx-auto flex flex-col justify-between items-center py-8 px-4 gap-4">
+      <div className="max-w-6xl mx-auto flex flex-col justify-between items-center py-4 px-4 gap-2">
         <div className="flex flex-col md:flex-row items-center gap-2">
           <div>
             <span className="text-red-600 font-semibold italic">Campus</span>

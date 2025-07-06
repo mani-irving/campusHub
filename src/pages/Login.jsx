@@ -33,10 +33,10 @@ export default function Login() {
 
   if (currentUser) return <Navigate to="/user/" />;
   return (
-    <section className="w-full min-h-[100vh] flex flex-col items-center justify-center bg-white dark:bg-gray-900 px-4">
+    <section className="w-full min-h-screen pt-24 pb-6 flex flex-col items-center justify-center bg-white dark:bg-gray-900 px-4">
       <div className="max-w-md w-full text-center shadow-lg rounded-xl bg-white dark:bg-zinc-800 px-6 py-10">
         <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">
-          Welcome Back 👋
+          Welcome Back
         </h2>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-left">

@@ -56,10 +56,10 @@ export default function Register() {
   };
   if (registrationSuccesful) return <Navigate to="/login" />;
   return (
-    <section className="w-full min-h-screen flex flex-col items-center justify-center bg-white dark:bg-gray-900 px-4 pt-20">
+    <section className="w-full min-h-screen flex flex-col items-center justify-center bg-white dark:bg-gray-900 px-4 pt-20 pb-6">
       <div className="max-w-2xl w-full text-center shadow-lg rounded-xl bg-white dark:bg-zinc-800 px-6 py-10">
         <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">
-          Student Registration 📝
+          Student Registration
         </h2>
 
         <form
