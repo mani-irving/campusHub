@@ -7,12 +7,10 @@ import { UserContextProvider } from "../context/UserContext";
 
 export default function MainLayout() {
   return (
-    <ThemeProvider>
-      <UserContextProvider>
-        <Navbar />
-        <Outlet />
-        <Footer />
-      </UserContextProvider>
-    </ThemeProvider>
+    <>
+      <Navbar />
+      <Outlet />
+      <Footer />
+    </>
   );
 }

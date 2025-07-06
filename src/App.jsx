@@ -9,6 +9,7 @@ import UserJoinedClubs from "./components/UserJoinedClubs.jsx";
 import EditUser from "./components/EditUser";
 import DeleteUser from "./components/DeleteUser";
 import DashboardHome from "./components/DashboardHome.jsx";
+import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 
 export default function App() {
   return (
@@ -19,7 +20,14 @@ export default function App() {
         <Route path="register" element={<Register />} />
       </Route>
 
-      <Route path="/user/" element={<DashboardLayout />}>
+      <Route
+        path="/user"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout />
+          </ProtectedRoute>
+        }
+      >
         <Route index element={<DashboardHome />} />
         <Route path="clubs" element={<UserJoinedClubs />} />
         <Route path="edit" element={<EditUser />} />

@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Menu } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext.jsx";
 import { Sun, Moon } from "lucide-react";
+import { useUserContext } from "../context/UserContext.jsx";
 
 export default function HamburgerMenu() {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { darkTheme, setDarkTheme } = useTheme();
+  const { currentUser, logout } = useUserContext();
+  const navigate = useNavigate();
 
   const themeChangeBtn = () => {
     setDarkTheme(!darkTheme);
+  };
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
   };
 
   useEffect(() => {
@@ -43,12 +50,26 @@ export default function HamburgerMenu() {
         <div>
           <Link to="/">Home</Link>
         </div>
-        <div>
-          <Link to="/register">Register</Link>
-        </div>
-        <div>
-          <Link to="/login">Login</Link>
-        </div>
+
+        {currentUser ? (
+          <>
+            <div>
+              <Link to="/user/">Dashboard</Link>
+            </div>
+            <div>
+              <button onClick={handleLogout}>Logout</button>
+            </div>
+          </>
+        ) : (
+          <>
+            <div>
+              <Link to="/register">Register</Link>
+            </div>
+            <div>
+              <Link to="/login">Login</Link>
+            </div>
+          </>
+        )}
         <div>
           <button onClick={themeChangeBtn}>
             {darkTheme ? (
