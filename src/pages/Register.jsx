@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { useUserContext } from "../context/UserContext";
 import { Navigate, Link } from "react-router-dom";
-import { EyeOff, Eye, EyeIcon } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 
+/**
+ * Component for user registration with form validation and password toggle.
+ */
 export default function Register() {
   const { addUser } = useUserContext();
-  const [registrationSuccesful, setRegistrationSuccessful] = useState(false);
+
   const [showPassword, setShowPassword] = useState(false);
+  const [registrationSuccessful, setRegistrationSuccessful] = useState(false);
 
   const defaultFormData = {
     firstName: "",
@@ -22,106 +26,69 @@ export default function Register() {
     isActive: false,
   };
 
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    admissionYear: "",
-    passingYear: "",
-    degree: "",
-    studentId: "",
-    dob: "",
-    department: "",
-    academicYear: "",
-    password: "",
-    isActive: false,
-  });
+  const [formData, setFormData] = useState(defaultFormData);
 
+  // Handle changes to form inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  // Submit form and handle user registration
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Send formData to backend or handle auth logic
-    const success = addUser(formData);
+    const success = await addUser(formData);
 
-    if (!success) {
-      return alert("User Already exists");
-    }
-    setRegistrationSuccessful(success);
-    console.log("Registering user:", formData);
+    if (!success) return alert("User already exists or password is invalid");
+
+    setRegistrationSuccessful(true);
     setFormData(defaultFormData);
     alert("User Registered Successfully");
   };
-  if (registrationSuccesful) return <Navigate to="/login" />;
+
+  if (registrationSuccessful) return <Navigate to="/login" />;
+
   return (
-    <section className="w-full min-h-screen flex flex-col items-center justify-center bg-white dark:bg-gray-900 px-4 pt-20 pb-6">
-      <div className="max-w-2xl w-full text-center shadow-lg rounded-xl bg-white dark:bg-zinc-800 px-6 py-10">
-        <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">
+    <section className="w-full min-h-screen flex items-center justify-center bg-white dark:bg-gray-900 px-4 pt-20 pb-6">
+      <div className="w-full max-w-2xl shadow-lg rounded-xl bg-white dark:bg-zinc-800 px-6 py-10">
+        <h2 className="text-3xl font-bold mb-6 text-center text-gray-900 dark:text-white">
           Student Registration
         </h2>
 
         <form
           onSubmit={handleSubmit}
-          className=" flex-col gap-4 text-center md:grid md:grid-cols-2 md:gap-6 md:text-left"
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
-          <div>
-            <label className="block text-sm text-gray-700 dark:text-gray-300 mb-1">
-              First Name
-            </label>
-            <input
-              type="text"
-              name="firstName"
-              required
-              onChange={handleChange}
-              value={formData.firstName}
-              className="input-style rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-zinc-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
+          {/** First Name */}
+          <InputField
+            label="First Name"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+          />
+          <InputField
+            label="Last Name"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+          />
 
-          <div>
-            <label className="block text-sm text-gray-700 dark:text-gray-300 mb-1">
-              Last Name
-            </label>
-            <input
-              type="text"
-              name="lastName"
-              required
-              onChange={handleChange}
-              value={formData.lastName}
-              className="input-style rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-zinc-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
+          <InputField
+            label="Admission Year"
+            name="admissionYear"
+            type="number"
+            value={formData.admissionYear}
+            onChange={handleChange}
+          />
+          <InputField
+            label="Passing Year"
+            name="passingYear"
+            type="number"
+            value={formData.passingYear}
+            onChange={handleChange}
+          />
 
-          <div>
-            <label className="block text-sm text-gray-700 dark:text-gray-300 mb-1">
-              Admission Year
-            </label>
-            <input
-              type="number"
-              name="admissionYear"
-              required
-              onChange={handleChange}
-              value={formData.admissionYear}
-              className="input-style rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-zinc-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm text-gray-700 dark:text-gray-300 mb-1">
-              Passing Out Year
-            </label>
-            <input
-              type="number"
-              name="passingYear"
-              required
-              onChange={handleChange}
-              value={formData.passingYear}
-              className="input-style rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-zinc-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
-
+          {/** Degree */}
           <div>
             <label className="block text-sm text-gray-700 dark:text-gray-300 mb-1">
               Degree / Course
@@ -129,60 +96,42 @@ export default function Register() {
             <select
               name="degree"
               required
-              onChange={handleChange}
               value={formData.degree}
-              className="input-style rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-zinc-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+              onChange={handleChange}
+              className="w-full mt-1 px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 
+                         bg-white dark:bg-zinc-900 text-gray-900 dark:text-white focus:outline-none 
+                         focus:ring-2 focus:ring-blue-400"
             >
               <option value="">Select Degree/Course</option>
-              <option value="B.tech">B.tech</option>
+              <option value="B.tech">B.Tech</option>
               <option value="BCA">BCA</option>
               <option value="BBA">BBA</option>
-              <option value="B.com">B.com</option>
+              <option value="B.com">B.Com</option>
             </select>
           </div>
 
-          <div>
-            <label className="block text-sm text-gray-700 dark:text-gray-300 mb-1">
-              Student ID
-            </label>
-            <input
-              type="number"
-              name="studentId"
-              required
-              onChange={handleChange}
-              value={formData.studentId}
-              className="input-style  rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-zinc-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
+          <InputField
+            label="Student ID"
+            name="studentId"
+            type="number"
+            value={formData.studentId}
+            onChange={handleChange}
+          />
+          <InputField
+            label="Date of Birth"
+            name="dob"
+            type="date"
+            value={formData.dob}
+            onChange={handleChange}
+          />
+          <InputField
+            label="Department"
+            name="department"
+            value={formData.department}
+            onChange={handleChange}
+          />
 
-          <div>
-            <label className="block text-sm text-gray-700 dark:text-gray-300 mb-1">
-              Date of Birth
-            </label>
-            <input
-              type="date"
-              name="dob"
-              required
-              onChange={handleChange}
-              value={formData.dob}
-              className="input-style rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-zinc-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm text-gray-700 dark:text-gray-300 mb-1">
-              Department
-            </label>
-            <input
-              type="text"
-              name="department"
-              required
-              onChange={handleChange}
-              value={formData.department}
-              className="input-style rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-zinc-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
-
+          {/** Academic Year */}
           <div>
             <label className="block text-sm text-gray-700 dark:text-gray-300 mb-1">
               Academic Year
@@ -192,7 +141,9 @@ export default function Register() {
               required
               value={formData.academicYear}
               onChange={handleChange}
-              className="input-style rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-zinc-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full mt-1 px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 
+                         bg-white dark:bg-zinc-900 text-gray-900 dark:text-white focus:outline-none 
+                         focus:ring-2 focus:ring-blue-400"
             >
               <option value="">Select Year</option>
               <option value="1st Year">1st Year</option>
@@ -202,26 +153,28 @@ export default function Register() {
             </select>
           </div>
 
-          <div>
+          {/** Password */}
+          <div className="col-span-full">
             <label className="block text-sm text-gray-700 dark:text-gray-300 mb-1">
               Password
             </label>
-
-            <div className="relative flex items-center">
+            <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
                 required
-                onChange={handleChange}
                 value={formData.password}
+                onChange={handleChange}
                 placeholder="Enter your password"
-                className="w-full pr-10 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-zinc-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200"
+                className="w-full mt-1 px-4 py-2 pr-10 rounded-md border border-gray-300 dark:border-gray-600 
+                           bg-white dark:bg-zinc-900 text-gray-900 dark:text-white 
+                           placeholder-gray-400 dark:placeholder-gray-500 
+                           focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
-
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-2 text-gray-500 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
                 aria-label="Toggle password visibility"
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
@@ -230,15 +183,19 @@ export default function Register() {
           </div>
         </form>
 
-        <button
-          type="submit"
-          onClick={handleSubmit}
-          className="mt-8 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-md transition"
-        >
-          Register
-        </button>
+        {/** Submit Button */}
+        <div className="col-span-full flex justify-center mt-6">
+          <button
+            type="submit"
+            onClick={handleSubmit}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-md transition"
+          >
+            Register
+          </button>
+        </div>
 
-        <p className="text-sm mt-6 text-gray-600 dark:text-gray-400">
+        {/** Redirect to login */}
+        <p className="text-sm mt-6 text-gray-600 dark:text-gray-400 text-center">
           Already have an account?{" "}
           <Link to="/login" className="text-blue-500 hover:underline">
             Login here
@@ -246,5 +203,29 @@ export default function Register() {
         </p>
       </div>
     </section>
+  );
+}
+
+/**
+ * Reusable input field with label
+ */
+function InputField({ label, name, value, onChange, type = "text" }) {
+  return (
+    <div>
+      <label className="block text-sm text-gray-700 dark:text-gray-300 mb-1">
+        {label}
+      </label>
+      <input
+        type={type}
+        name={name}
+        required
+        value={value}
+        onChange={onChange}
+        className="w-full mt-1 px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 
+                   bg-white dark:bg-zinc-900 text-gray-900 dark:text-white 
+                   placeholder-gray-400 dark:placeholder-gray-500 
+                   focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
+    </div>
   );
 }

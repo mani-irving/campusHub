@@ -2,9 +2,24 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="./public/favicon-avatar.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>campusHub</title>
+    <script>
+      (function () {
+        const storedTheme = localStorage.getItem("localTheme");
+        if (storedTheme === "dark" || storedTheme === "light") {
+          document.documentElement.classList.add(storedTheme);
+        } else {
+          const systemDark = window.matchMedia(
+            "(prefers-color-scheme: dark)"
+          ).matches;
+          const theme = systemDark ? "dark" : "light";
+          document.documentElement.classList.add(theme);
+          localStorage.setItem("localTheme", theme);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
