@@ -16,7 +16,7 @@ const clubs = [
 export default function ClubsCarousel() {
   return (
     <section className="py-12 bg-gray-50 dark:bg-zinc-800">
-      <div className="max-w-6xl mx-auto ">
+      <div className="max-w-6xl mx-auto p-6">
         <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-8">
           Explore Our College Clubs
         </h2>

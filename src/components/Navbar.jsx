@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "../context/ThemeContext.jsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HomeIcon as Home, Sun, Moon } from "lucide-react";
 import HamburgerMenu from "./HamburgerMenu.jsx";
 import { useUserContext } from "../context/UserContext.jsx";
@@ -9,10 +9,11 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const { darkTheme, setDarkTheme } = useTheme();
   const { currentUser, logout } = useUserContext();
+  // const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
-    navigate("/login");
+    // navigate("/login");
   };
 
   const themeChangeBtn = () => {
